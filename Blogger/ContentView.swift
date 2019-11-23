@@ -20,6 +20,22 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
+            VStack {
+                HStack {
+                    Spacer()
+                    Text("Users:").font(.caption).foregroundColor(.secondary)
+                ZStack {
+                    
+                    Group {
+                        Circle().fill(Color.green)
+                            .frame(width: 23, height: 23)
+                        
+                        Spacer()
+                        Text("\(self.bigger.count)").bold().foregroundColor(.white)
+                    }
+                    }
+                }.padding(.trailing)
+            
             List {
                 ForEach(bigger, id: \.name) { big in
                     ZStack {
@@ -54,9 +70,9 @@ struct ContentView: View {
                         }.padding()
                     }
                 }.onDelete(perform: remove)
-                
+            }
             }.navigationBarTitle("Creators")
-                .navigationBarItems(trailing: Button(action: {self.save.toggle()}) { Image(systemName: "plus.circle.fill")})
+                .navigationBarItems(leading: Image(systemName: "square.and.arrow.up"), trailing: Button(action: {self.save.toggle()}) { Image(systemName: "plus.circle.fill")})
                 .sheet(isPresented: $save) {
                     AddNew().environment(\.managedObjectContext, self.moc)
             }
