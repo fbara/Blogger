@@ -45,6 +45,7 @@ struct ContentView: View {
                             
                             Button(action: {
                                 big.saved.toggle()
+                                
                                 try? self.moc.save()
                             }) {
                                 Image(systemName: big.saved ? "bookmark.fill" : "bookmark")
@@ -53,11 +54,11 @@ struct ContentView: View {
                         }.padding()
                     }
                 }
+            }.navigationBarTitle("Creators")
+                .navigationBarItems(trailing: Button(action: {self.save.toggle()}) { Image(systemName: "plus.circle.fill")})
+                .sheet(isPresented: $save) {
+                    AddNew().environment(\.managedObjectContext, self.moc)
             }
-        }.navigationBarTitle("Creators")
-            .navigationBarItems(trailing: Button(action: {self.save.toggle()}) { Image(systemName: "plus.circle.fill")})
-            .sheet(isPresented: $save) {
-                AddNew().environment(\.managedObjectContext, self.moc)
         }
     }
 }
