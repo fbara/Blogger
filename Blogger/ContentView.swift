@@ -53,13 +53,24 @@ struct ContentView: View {
                             
                         }.padding()
                     }
-                }
+                }.onDelete(perform: remove)
+                
             }.navigationBarTitle("Creators")
                 .navigationBarItems(trailing: Button(action: {self.save.toggle()}) { Image(systemName: "plus.circle.fill")})
                 .sheet(isPresented: $save) {
                     AddNew().environment(\.managedObjectContext, self.moc)
             }
         }
+    }
+    
+    func remove(at offsets: IndexSet) {
+        for index in offsets {
+            let delete = bigger[index]
+            
+            self.moc.delete(delete)
+        }
+        
+        try? self.moc.save()
     }
 }
 
